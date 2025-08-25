@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 1: Language in Use</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+        }
+        .content-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4f46e5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .topic-btn.active {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .chart-container {
+            height: 200px;
+            position: relative;
+        }
+        .example-sentence {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-8">
+        <header class="text-center mb-8 bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg">
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-900">Unit 1: Language in Use</h1>
+            <p class="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">Describing Trends & Making Recommendations</p>
+        </header>
+
+        <!-- Topic Buttons -->
+        <div class="flex justify-center space-x-4 mb-8">
+            <button id="btn-trends" class="topic-btn active text-lg font-semibold py-3 px-6 bg-white rounded-lg shadow-md hover:bg-gray-100 transition-all duration-200">Describing Trends</button>
+            <button id="btn-recommend" class="topic-btn text-lg font-semibold py-3 px-6 bg-white rounded-lg shadow-md hover:bg-gray-100 transition-all duration-200">Making Recommendations</button>
+        </div>
+
+        <!-- Section 1: Describing Trends -->
+        <section id="trends-section">
+            <div class="content-card p-6 md:p-8 rounded-xl shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4 text-gray-900">Describing Trends</h2>
+                <p class="mb-8 text-gray-700">We can talk about changes over time in two main ways. We can describe the action with a **Verb + Adverb**, or we can name the change with an **Adjective + Noun**.</p>
+                
+                <!-- Explanation Chart -->
+                <div class="bg-gray-50 rounded-lg p-6 border border-gray-200 mb-10">
+                    <h3 class="text-2xl font-bold text-center mb-4">How to Describe a Trend</h3>
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div class="w-full h-48 md:h-64">
+                            <canvas id="explanation-chart"></canvas>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-800">1. Describe the Action (Verb + Adverb)</h4>
+                                <p class="text-gray-600">The number of subscribers <strong class="text-green-600">grew</strong> <strong class="text-blue-600">steadily</strong>.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-800">2. Name the Change (Adjective + Noun)</h4>
+                                <p class="text-gray-600">There was a <strong class="text-blue-600">steady</strong> <strong class="text-green-600">growth</strong> in subscribers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MOVED SECTION: Vocabulary Examples -->
+                <div class="py-10 border-t">
+                    <h3 class="text-2xl font-bold text-center mb-2">Vocabulary Examples: Headphone Trends</h3>
+                    <p class="text-center text-gray-600 mb-6">Study how the vocabulary can be used to describe the trends in the graphs.</p>
+                    <div class="flex justify-center gap-8 mb-8 text-center">
+                        <div>
+                            <h4 class="font-bold text-lg text-indigo-700">Verbs</h4>
+                            <ul class="mt-2 space-y-1 text-gray-700">
+                                <li>fall</li>
+                                <li>grow</li>
+                                <li>increase</li>
+                                <li>jump</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-indigo-700">Adverbs</h4>
+                            <ul class="mt-2 space-y-1 text-gray-700">
+                                <li>dramatically</li>
+                                <li>gradually</li>
+                                <li>slightly</li>
+                                <li>steadily</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Chart D: Earbuds -->
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h4 class="font-semibold text-center text-gray-700">Percentage of teens who use earbuds</h4>
+                            <div class="chart-container mt-2">
+                                <canvas id="chart-d"></canvas>
+                            </div>
+                            <div class="mt-4 space-y-2">
+                                <p class="example-sentence"><strong>Verb + Adverb:</strong> Earbud use <strong class="text-indigo-600">jumped dramatically</strong>.</p>
+                                <p class="example-sentence"><strong>Adjective + Noun:</strong> There was a <strong class="text-indigo-600">dramatic jump</strong> in earbud use.</p>
+                            </div>
+                        </div>
+                        <!-- Chart E: Headphones Daily -->
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h4 class="font-semibold text-center text-gray-700">Percentage of teens who use headphones daily</h4>
+                            <div class="chart-container mt-2">
+                                <canvas id="chart-e"></canvas>
+                            </div>
+                             <div class="mt-4 space-y-2">
+                                <p class="example-sentence"><strong>Verb + Adverb:</strong> Daily headphone use <strong class="text-indigo-600">grew steadily</strong>.</p>
+                                <p class="example-sentence"><strong>Adjective + Noun:</strong> There was a <strong class="text-indigo-600">steady growth</strong> in daily headphone use.</p>
+                            </div>
+                        </div>
+                        <!-- Chart F: Loud Music -->
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h4 class="font-semibold text-center text-gray-700">Percentage of teens exposed to loud music daily</h4>
+                            <div class="chart-container mt-2">
+                                <canvas id="chart-f"></canvas>
+                            </div>
+                             <div class="mt-4 space-y-2">
+                                <p class="example-sentence"><strong>Verb + Adverb:</strong> Exposure to loud music <strong class="text-indigo-600">increased gradually</strong>.</p>
+                                <p class="example-sentence"><strong>Adjective + Noun:</strong> There was a <strong class="text-indigo-600">gradual increase</strong> in exposure to loud music.</p>
+                            </div>
+                        </div>
+                        <!-- Chart G: Hearing Loss -->
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h4 class="font-semibold text-center text-gray-700">Percentage of teens with hearing loss from music</h4>
+                            <div class="chart-container mt-2">
+                                <canvas id="chart-g"></canvas>
+                            </div>
+                            <div class="mt-4 space-y-2">
+                                <p class="example-sentence"><strong>Verb + Adverb:</strong> Hearing loss from music <strong class="text-indigo-600">fell slightly</strong> after 2008.</p>
+                                <p class="example-sentence"><strong>Adjective + Noun:</strong> There was a <strong class="text-indigo-600">slight fall</strong> in hearing loss from music after 2008.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 pt-8 border-t">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Practice Zone 1</h3>
+                            <button id="new-statement-1" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-1 px-3 rounded-full">🔄 New Statement</button>
+                        </div>
+                        <p class="mb-4 text-sm text-gray-600">Rewrite the following sentence using a **verb + adverb**: <br><strong id="prompt-1" class="text-indigo-600">"There was a slight fall in ticket sales."</strong></p>
+                        <textarea id="trends-input-1" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Your rewritten sentence..."></textarea>
+                        <button id="trends-btn-1" class="mt-3 w-full bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-200 flex items-center justify-center">
+                            <span class="btn-text">Get Feedback</span>
+                            <div class="loader ml-2" style="display: none;"></div>
+                        </button>
+                        <div id="trends-feedback-1" class="mt-4 bg-indigo-50 p-4 rounded-md text-gray-700" style="display: none;"></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Practice Zone 2</h3>
+                            <button id="new-statement-2" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-1 px-3 rounded-full">🔄 New Statement</button>
+                        </div>
+                        <p class="mb-4 text-sm text-gray-600">Rewrite the following sentence using an **adjective + noun**: <br><strong id="prompt-2" class="text-indigo-600">"The popularity of CDs fell sharply."</strong></p>
+                        <textarea id="trends-input-2" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Your rewritten sentence..."></textarea>
+                        <button id="trends-btn-2" class="mt-3 w-full bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-200 flex items-center justify-center">
+                            <span class="btn-text">Get Feedback</span>
+                            <div class="loader ml-2" style="display: none;"></div>
+                        </button>
+                        <div id="trends-feedback-2" class="mt-4 bg-indigo-50 p-4 rounded-md text-gray-700" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- New Chart Practice Section -->
+                <div class="pt-10 mt-10 border-t">
+                    <h3 class="text-2xl font-bold text-center mb-6">Now, Your Turn: Describe the Graphs</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Chart A -->
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h4 class="font-semibold text-center text-gray-700">Digital Album Sales</h4>
+                            <div class="chart-container mt-2">
+                                <canvas id="chart-a"></canvas>
+                            </div>
+                            <textarea id="input-a" class="w-full mt-4 p-2 border border-gray-300 rounded-md" rows="2" placeholder="Describe the trend..."></textarea>
+                            <button data-chart="a" class="describe-btn mt-2 w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700">Get Feedback</button>
+                            <div id="feedback-a" class="mt-2 bg-green-50 p-3 rounded-md text-sm" style="display: none;"></div>
+                        </div>
+                        <!-- Chart B -->
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h4 class="font-semibold text-center text-gray-700">Live Music Ticket Prices</h4>
+                            <div class="chart-container mt-2">
+                                <canvas id="chart-b"></canvas>
+                            </div>
+                            <textarea id="input-b" class="w-full mt-4 p-2 border border-gray-300 rounded-md" rows="2" placeholder="Describe the trend..."></textarea>
+                            <button data-chart="b" class="describe-btn mt-2 w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700">Get Feedback</button>
+                            <div id="feedback-b" class="mt-2 bg-green-50 p-3 rounded-md text-sm" style="display: none;"></div>
+                        </div>
+                        <!-- Chart C -->
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h4 class="font-semibold text-center text-gray-700">Radio Listenership</h4>
+                            <div class="chart-container mt-2">
+                                <canvas id="chart-c"></canvas>
+                            </div>
+                            <textarea id="input-c" class="w-full mt-4 p-2 border border-gray-300 rounded-md" rows="2" placeholder="Describe the trend..."></textarea>
+                            <button data-chart="c" class="describe-btn mt-2 w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700">Get Feedback</button>
+                            <div id="feedback-c" class="mt-2 bg-green-50 p-3 rounded-md text-sm" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Making Recommendations -->
+        <section id="recommend-section" style="display: none;">
+             <div class="content-card p-6 md:p-8 rounded-xl shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4 text-gray-900">Making Recommendations & Predicting Outcomes</h2>
+                <p class="mb-6 text-gray-700">This guide explains the key phrases from Unit 1 for making suggestions and predicting their results.</p>
+
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Phrases for Making a Recommendation</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <p class="font-semibold text-lg">I would/wouldn't recommend...</p>
+                                <p class="text-gray-600 mt-1">This is a standard and slightly formal way to give advice. Using "wouldn't" is a strong way to advise against an action.</p>
+                                <blockquote class="mt-2 p-3 bg-gray-100 border-l-4 border-gray-300 text-gray-700 italic">
+                                    <p><strong>Alex:</strong> The store is too quiet. What should we do?</p>
+                                    <p><strong>Ben:</strong> <font color='#2980b9'>I would recommend</font> playing some upbeat pop music. <font color='#2980b9'>I wouldn't recommend</font> classical music; it might be too slow.</p>
+                                </blockquote>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-lg">I propose that we...</p>
+                                <p class="text-gray-600 mt-1">This is a more formal and serious way to present a plan, often used when you want a group to consider a specific idea.</p>
+                                <blockquote class="mt-2 p-3 bg-gray-100 border-l-4 border-gray-300 text-gray-700 italic">
+                                    <p><strong>Alex:</strong> We need a clear plan to present to the store owner.</p>
+                                    <p><strong>Ben:</strong> I agree. <font color='#2980b9'>I propose that we</font> create a playlist of trending songs from the last six months.</p>
+                                </blockquote>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-lg">How about if we...?</p>
+                                <p class="text-gray-600 mt-1">This is an informal and collaborative way to make a suggestion. It invites others to share their opinion.</p>
+                                <blockquote class="mt-2 p-3 bg-gray-100 border-l-4 border-gray-300 text-gray-700 italic">
+                                    <p><strong>Alex:</strong> I'm worried a pop playlist might be too loud for some people.</p>
+                                    <p><strong>Ben:</strong> That's a fair point. <font color='#2980b9'>How about if we</font> mix in some calmer instrumental tracks every few songs?</p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 border-t border-gray-200">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Phrases for Predicting an Outcome</h3>
+                         <div class="space-y-6">
+                            <div>
+                                <p class="font-semibold text-lg">I expect that...</p>
+                                <p class="text-gray-600 mt-1">This shows you have a strong belief about what the future result will be, based on your judgment.</p>
+                                <blockquote class="mt-2 p-3 bg-gray-100 border-l-4 border-gray-300 text-gray-700 italic">
+                                    <p><strong>Alex:</strong> Why do you think upbeat music is the right choice?</p>
+                                    <p><strong>Ben:</strong> I would recommend it because <font color='#c0392b'>I expect that</font> it will create a more energetic and happy atmosphere in the store.</p>
+                                </blockquote>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-lg">I'm convinced that...</p>
+                                <p class="text-gray-600 mt-1">This is a very strong way to show your certainty about an outcome. It means you have no doubt.</p>
+                                <blockquote class="mt-2 p-3 bg-gray-100 border-l-4 border-gray-300 text-gray-700 italic">
+                                    <p><strong>Alex:</strong> Are you sure this will work?</p>
+                                    <p><strong>Ben:</strong> Yes. <font color='#c0392b'>I'm convinced that</font> if we play the right music, customers will stay longer and buy more.</p>
+                                </blockquote>
+                            </div>
+                             <div>
+                                <p class="font-semibold text-lg">It's likely that...</p>
+                                <p class="text-gray-600 mt-1">This phrase indicates a high probability that something will happen. It's a confident but not absolute prediction.</p>
+                                <blockquote class="mt-2 p-3 bg-gray-100 border-l-4 border-gray-300 text-gray-700 italic">
+                                    <p><strong>Alex:</strong> What's the risk if we play the wrong music?</p>
+                                    <p><strong>Ben:</strong> If we play something too slow, <font color='#c0392b'>it's likely that</font> customers will feel bored and leave quickly.</p>
+                                </blockquote>
+                            </div>
+                             <div>
+                                <p class="font-semibold text-lg">I wouldn't be surprised if...</p>
+                                <p class="text-gray-600 mt-1">This is a more casual way to say you think something is likely to happen.</p>
+                                <blockquote class="mt-2 p-3 bg-gray-100 border-l-4 border-gray-300 text-gray-700 italic">
+                                    <p><strong>Alex:</strong> Do you think the store will see a big change?</p>
+                                    <p><strong>Ben:</strong> With a good playlist, <font color='#c0392b'>I wouldn't be surprised if</font> their sales increased by 10% this month.</p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-8 border-t border-gray-200">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Video: Real-Life Examples</h3>
+                        <p class="mb-4 text-gray-600">Watch this short video of two colleagues planning an event. Listen for how they make suggestions and predict the outcomes of their ideas.</p>
+                        <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                           <iframe src="https://www.youtube.com/embed/k-r7a_xYk30" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="absolute top-0 left-0 w-full h-full"></iframe>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-8 border-t border-gray-200">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Practice Zone</h3>
+                        <p class="mb-4 text-gray-600">Imagine your school library is always too loud. Write a recommendation to the librarian. Use a phrase like "I would recommend..." or "I propose that..." and predict the outcome with a phrase like "I expect that..." or "It's likely that...".</p>
+                        <textarea id="rec-input" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500" rows="4" placeholder="e.g., I would recommend creating a 'silent study' zone. I expect that this will help students focus better."></textarea>
+                        <button id="rec-btn" class="mt-3 w-full bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-200 flex items-center justify-center">
+                            <span class="btn-text">Get Feedback</span>
+                            <div class="loader ml-2" style="display: none;"></div>
+                        </button>
+                        <button id="email-btn" class="mt-3 w-full bg-sky-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-sky-700 transition-colors duration-200 flex items-center justify-center">
+                            📧 Email Feedback to Teacher
+                        </button>
+                        <div id="rec-feedback" class="mt-4 bg-indigo-50 p-4 rounded-md text-gray-700" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ADDED MODAL HTML -->
+    <div id="email-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold mb-4">Copy Email Content</h3>
+            <p class="text-gray-600 mb-4">Your email app could not be opened automatically. Please copy the subject and body below and paste them into a new email to your teacher.</p>
+            
+            <label for="email-subject" class="font-semibold text-gray-700">Subject:</label>
+            <div class="flex items-center mt-1 mb-4">
+                <input type="text" id="email-subject" class="w-full p-2 border border-gray-300 rounded-l-md bg-gray-50" readonly>
+                <button id="copy-subject-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-r-md">Copy</button>
+            </div>
+
+            <label for="email-body" class="font-semibold text-gray-700">Body:</label>
+            <div class="flex items-start mt-1 mb-6">
+                <textarea id="email-body" class="w-full p-2 border border-gray-300 rounded-l-md bg-gray-50" rows="6" readonly></textarea>
+                <button id="copy-body-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-r-md">Copy</button>
+            </div>
+            
+            <button id="close-modal-btn" class="w-full bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const practice1Sentences = [
+            "There was a slight fall in ticket sales.",
+            "There has been a dramatic growth in streaming.",
+            "There was a steady decline in CD purchases.",
+            "There has been a sharp rise in vinyl record sales.",
+            "There was a gradual increase in headphone use."
+        ];
+
+        const practice2Sentences = [
+            "The popularity of CDs fell sharply.",
+            "The use of headphones grew steadily.",
+            "The cost of concert tickets increased slightly.",
+            "The number of online listeners jumped dramatically.",
+            "Earbud usage increased gradually."
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Chart.js instance for the explanation chart
+            const explanationCtx = document.getElementById('explanation-chart').getContext('2d');
+            new Chart(explanationCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023'],
+                    datasets: [{
+                        label: 'Streaming Subscribers (in Millions)',
+                        data: [100, 150, 250, 400],
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // Original chart instances
+            const chartA_Ctx = document.getElementById('chart-a').getContext('2d');
+            new Chart(chartA_Ctx, {
+                type: 'bar',
+                data: { labels: ['2019', '2020', '2021', '2022'], datasets: [{ data: [50, 45, 30, 20], backgroundColor: '#ef4444' }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+
+            const chartB_Ctx = document.getElementById('chart-b').getContext('2d');
+            new Chart(chartB_Ctx, {
+                type: 'line',
+                data: { labels: ['2019', '2020', '2021', '2022'], datasets: [{ data: [80, 85, 95, 110], borderColor: '#10b981', tension: 0.1 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+
+            const chartC_Ctx = document.getElementById('chart-c').getContext('2d');
+            new Chart(chartC_Ctx, {
+                type: 'line',
+                data: { labels: ['2019', '2020', '2021', '2022'], datasets: [{ data: [75, 74, 72, 70], borderColor: '#f59e0b', tension: 0.1 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+
+            // New charts from image
+            const chartD_Ctx = document.getElementById('chart-d').getContext('2d');
+            new Chart(chartD_Ctx, { // Earbuds
+                type: 'line',
+                data: { labels: ['2015', '2016', '2017', '2018'], datasets: [{ data: [5, 15, 22, 30], borderColor: '#ef4444', tension: 0.1 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+
+            const chartE_Ctx = document.getElementById('chart-e').getContext('2d');
+            new Chart(chartE_Ctx, { // Headphones Daily
+                type: 'line',
+                data: { labels: ['2010', '2012', '2014', '2016', '2018'], datasets: [{ data: [20, 23, 26, 29, 32], borderColor: '#10b981', tension: 0.1 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+
+            const chartF_Ctx = document.getElementById('chart-f').getContext('2d');
+            new Chart(chartF_Ctx, { // Loud Music
+                type: 'line',
+                data: { labels: ['2005', '2007', '2009', '2010'], datasets: [{ data: [32, 38, 41, 45], borderColor: '#f59e0b', tension: 0.1 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+
+            const chartG_Ctx = document.getElementById('chart-g').getContext('2d');
+            new Chart(chartG_Ctx, { // Hearing Loss
+                type: 'line',
+                data: { labels: ['2007', '2008', '2013', '2018'], datasets: [{ data: [15, 21, 18, 15], borderColor: '#3b82f6', tension: 0.4 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+
+
+            const trendsSection = document.getElementById('trends-section');
+            const recommendSection = document.getElementById('recommend-section');
+            const btnTrends = document.getElementById('btn-trends');
+            const btnRecommend = document.getElementById('btn-recommend');
+
+            btnTrends.addEventListener('click', () => {
+                trendsSection.style.display = 'block';
+                recommendSection.style.display = 'none';
+                btnTrends.classList.add('active');
+                btnRecommend.classList.remove('active');
+            });
+
+            btnRecommend.addEventListener('click', () => {
+                trendsSection.style.display = 'none';
+                recommendSection.style.display = 'block';
+                btnRecommend.classList.add('active');
+                btnTrends.classList.remove('active');
+            });
+
+            // Statement Generators
+            const newStatement1Btn = document.getElementById('new-statement-1');
+            const prompt1 = document.getElementById('prompt-1');
+            newStatement1Btn.addEventListener('click', () => {
+                const currentSentence = prompt1.textContent;
+                let newSentence = currentSentence;
+                while (newSentence === currentSentence) {
+                    newSentence = practice1Sentences[Math.floor(Math.random() * practice1Sentences.length)];
+                }
+                prompt1.textContent = newSentence;
+            });
+
+            const newStatement2Btn = document.getElementById('new-statement-2');
+            const prompt2 = document.getElementById('prompt-2');
+            newStatement2Btn.addEventListener('click', () => {
+                const currentSentence = prompt2.textContent;
+                let newSentence = currentSentence;
+                while (newSentence === currentSentence) {
+                    newSentence = practice2Sentences[Math.floor(Math.random() * practice2Sentences.length)];
+                }
+                prompt2.textContent = newSentence;
+            });
+        });
+
+        async function getAIFeedback(prompt, button, outputDiv) {
+            const btnText = button.querySelector('.btn-text') || button;
+            const loader = button.querySelector('.loader') || document.createElement('div');
+            
+            if(button.querySelector('.btn-text')) {
+                 btnText.textContent = 'Checking...';
+                 loader.style.display = 'inline-block';
+            } else {
+                 button.innerHTML = '<div class="loader" style="margin: 0 auto;"></div>';
+            }
+            button.disabled = true;
+
+            try {
+                const apiKey = "AIzaSyAuFtUiTGRQPMPlOXfcLr_tO--VQwLZwZE";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                const result = await response.json();
+                const feedback = result.candidates[0]?.content?.parts[0]?.text || "Sorry, I couldn't get any feedback.";
+                
+                outputDiv.innerHTML = feedback.replace(/\n/g, '<br>');
+                outputDiv.style.display = 'block';
+
+            } catch (error) {
+                console.error("Gemini API call error:", error);
+                outputDiv.textContent = "An error occurred. Please try again.";
+                outputDiv.style.display = 'block';
+            } finally {
+                if(button.querySelector('.btn-text')) {
+                    btnText.textContent = 'Get Feedback';
+                    loader.style.display = 'none';
+                } else {
+                    button.innerHTML = 'Get Feedback';
+                }
+                button.disabled = false;
+            }
+        }
+
+        document.getElementById('trends-btn-1').addEventListener('click', () => {
+            const studentSentence = document.getElementById('trends-input-1').value;
+            const outputDiv = document.getElementById('trends-feedback-1');
+            if (studentSentence.trim()) {
+                const originalSentence = document.getElementById('prompt-1').textContent;
+                const prompt = `You are a strict and direct English grammar checker. A student was asked to rewrite the sentence "${originalSentence}" using a verb and an adverb. The student wrote: "${studentSentence}". Do not be conversational. Provide feedback in two parts: 1. **Correctness:** State "Correct." or "Incorrect." 2. **Correction/Reason:** If incorrect, provide the corrected sentence and a brief, direct explanation of the error. If correct, briefly explain why it is a good example.`;
+                getAIFeedback(prompt, document.getElementById('trends-btn-1'), outputDiv);
+            } else {
+                outputDiv.textContent = "Please enter a sentence first.";
+                outputDiv.style.display = 'block';
+            }
+        });
+
+        document.getElementById('trends-btn-2').addEventListener('click', () => {
+            const studentSentence = document.getElementById('trends-input-2').value;
+            const outputDiv = document.getElementById('trends-feedback-2');
+            if (studentSentence.trim()) {
+                const originalSentence = document.getElementById('prompt-2').textContent;
+                const prompt = `You are a strict and direct English grammar checker. A student was asked to rewrite the sentence "${originalSentence}" using an adjective and a noun. The student wrote: "${studentSentence}". Do not be conversational. Provide feedback in two parts: 1. **Correctness:** State "Correct." or "Incorrect." 2. **Correction/Reason:** If incorrect, provide the corrected sentence and a brief, direct explanation of the error. If correct, briefly explain why it is a good example.`;
+                getAIFeedback(prompt, document.getElementById('trends-btn-2'), outputDiv);
+            } else {
+                outputDiv.textContent = "Please enter a sentence first.";
+                outputDiv.style.display = 'block';
+            }
+        });
+        
+        document.querySelectorAll('.describe-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const chartId = button.dataset.chart;
+                const studentSentence = document.getElementById(`input-${chartId}`).value;
+                const outputDiv = document.getElementById(`feedback-${chartId}`);
+                let chartDescription = '';
+
+                if (chartId === 'a') chartDescription = 'a sharp decline in digital album sales from 2019 to 2022.';
+                if (chartId === 'b') chartDescription = 'a steady increase in live music ticket prices from 2019 to 2022.';
+                if (chartId === 'c') chartDescription = 'a slight fall in radio listenership from 2019 to 2022.';
+                
+                if (studentSentence.trim()) {
+                    const prompt = `You are a strict and direct English grammar checker. A student is describing a graph that shows ${chartDescription} The student wrote: "${studentSentence}". Do not be conversational. Provide feedback in two parts: 1. **Correctness:** State "Correct." or "Incorrect." 2. **Correction/Reason:** If incorrect, provide a corrected sentence and a brief, direct explanation of the error. If correct, briefly explain why it is a good sentence.`;
+                    getAIFeedback(prompt, button, outputDiv);
+                } else {
+                    outputDiv.textContent = "Please enter a sentence first.";
+                    outputDiv.style.display = 'block';
+                }
+            });
+        });
+
+         document.getElementById('rec-btn').addEventListener('click', () => {
+            const studentSentence = document.getElementById('rec-input').value;
+            const outputDiv = document.getElementById('rec-feedback');
+            if (studentSentence.trim()) {
+                const prompt = `You are a strict and direct English grammar checker. A student wrote this sentence to practice making recommendations and predicting outcomes: "${studentSentence}". Do not be conversational. Provide feedback in two parts: 1. **Correctness:** State "Correct." or "Incorrect." 2. **Correction/Reason:** If incorrect, provide the corrected sentence and a brief, direct explanation of the error (e.g., "Missing a prediction phrase like 'I expect that...'"). If correct, briefly explain why it is a good example.`;
+                getAIFeedback(prompt, document.getElementById('rec-btn'), outputDiv);
+            } else {
+                outputDiv.textContent = "Please enter a sentence first.";
+                outputDiv.style.display = 'block';
+            }
+        });
+
+        // REVISED EMAIL BUTTON LOGIC
+        const emailModal = document.getElementById('email-modal');
+        const emailBtn = document.getElementById('email-btn');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const copySubjectBtn = document.getElementById('copy-subject-btn');
+        const copyBodyBtn = document.getElementById('copy-body-btn');
+
+        emailBtn.addEventListener('click', () => {
+            const studentSentence = document.getElementById('rec-input').value;
+            const feedbackDiv = document.getElementById('rec-feedback');
+            const feedbackText = feedbackDiv.innerText;
+
+            if (studentSentence.trim() === '') {
+                feedbackDiv.textContent = "Please write a sentence before trying to email feedback.";
+                feedbackDiv.style.display = 'block';
+                return;
+            }
+            
+            if (feedbackText.trim() === '' || feedbackDiv.style.display === 'none') {
+                feedbackDiv.textContent = "Please click 'Get Feedback' before emailing.";
+                feedbackDiv.style.display = 'block';
+                return;
+            }
+
+            const subject = "Feedback: Making Recommendations Practice";
+            const body = `Hello Teacher,\n\nHere is my practice sentence and the feedback I received:\n\nMy Sentence:\n"${studentSentence}"\n\nFeedback:\n${feedbackText}\n\nThank you!`;
+            
+            document.getElementById('email-subject').value = subject;
+            document.getElementById('email-body').value = body;
+            emailModal.style.display = 'flex';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            emailModal.style.display = 'none';
+        });
+
+        copySubjectBtn.addEventListener('click', () => {
+            const subjectInput = document.getElementById('email-subject');
+            subjectInput.select();
+            document.execCommand('copy');
+            copySubjectBtn.textContent = 'Copied!';
+            setTimeout(() => { copySubjectBtn.textContent = 'Copy'; }, 2000);
+        });
+
+        copyBodyBtn.addEventListener('click', () => {
+            const bodyTextarea = document.getElementById('email-body');
+            bodyTextarea.select();
+            document.execCommand('copy');
+            copyBodyBtn.textContent = 'Copied!';
+            setTimeout(() => { copyBodyBtn.textContent = 'Copy'; }, 2000);
+        });
+
+    </script>
+</body>
+</html>
